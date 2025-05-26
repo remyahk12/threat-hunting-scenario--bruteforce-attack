@@ -1,162 +1,139 @@
 # threat-hunting-scenario--bruteforce-attack
 
+# Table of Contents
 
+- [🌐 Scenario Context](#scenario-context)
+- [🛠️ Platforms and Tools](#platforms-and-tools)
+- [🚨 Part 1: Create Alert Rule](#part-1-create-alert-rule)
+- [🔔 Part 2: Trigger Alert to Create Incident](#part-2-trigger-alert-to-create-incident)
+- [🔍 Part 3: Working the Incident](#part-3-working-the-incident)
+  - [🛡️ 3.1 Preparation](#31-preparation)
+  - [🔎 3.2 Detection and Analysis](#32-detection-and-analysis)
+  - [🛠️ 3.3 Containment, Eradication, and Recovery](#33-containment-eradication-and-recovery)
+  - [📋 3.4 Post-Incident Activities](#34-post-incident-activities)
+  - [✅ 3.5 Incident Closure](#35-incident-closure)
+- [📝 Lab Summary](#lab-summary)
 
-##Table of Content
--  [scenarios] -scenario
+# Scenario Context
 
-# Threat Hunt Report: Unauthorized TOR Usage
-- [Scenario Creation](https://github.com/joshmadakor0/threat-hunting-scenario-tor/blob/main/threat-hunting-scenario-tor-event-creation.md)
+As a security analyst for a large financial services organisation relying heavily on Microsoft Azure services, I observed multiple failed login attempts, particularly targeting privileged accounts during off-hours. This raises concerns about a brute-force attack or a credential-stuffing campaign.
 
-## Platforms and Languages Leveraged
-- Windows 10 Virtual Machines (Microsoft Azure)
-- EDR Platform: Microsoft Defender for Endpoint
-- Kusto Query Language (KQL)
-- Tor Browser
+My goal is to investigate, detect, and mitigate this potential threat in compliance with **NIST 800-61** guidelines.
 
-##  Scenario
+<a name="platforms-and-tools"></a>
+# 🛠️ Platforms and Tools
 
-Management suspects that some employees may be using TOR browsers to bypass network security controls because recent network logs show unusual encrypted traffic patterns and connections to known TOR entry nodes. Additionally, there have been anonymous reports of employees discussing ways to access restricted sites during work hours. The goal is to detect any TOR usage and analyze related security incidents to mitigate potential risks. If any use of TOR is found, notify management.
+•	Microsoft Sentinel<br>
+•	Microsoft Defender for Endpoint<br>
+•	Kusto Query Language (KQL)<br>
+•	Windows 10 Virtual Machines (Microsoft Azure)<br>
 
-### High-Level TOR-Related IoC Discovery Plan
+# Part 1: Create Alert Rule
 
-- **Check `DeviceFileEvents`** for any `tor(.exe)` or `firefox(.exe)` file events.
-- **Check `DeviceProcessEvents`** for any signs of installation or usage.
-- **Check `DeviceNetworkEvents`** for any signs of outgoing connections over known TOR ports.
+<img src="https://i.imgur.com/kJNMUXs.png">
 
----
+I named the rule, gave it a description, assigned a severity level and included relevant MITRE ATT&CK labels. 
 
-## Steps Taken
+<img src="https://i.imgur.com/dWCGkUL.png">
 
-### 1. Searched the `DeviceFileEvents` Table
+I set the rule logic and enhanced the alert by mapping it. 
 
-Searched for any file that had the string "tor" in it and discovered what looks like the user "employee" downloaded a TOR installer, did something that resulted in many TOR-related files being copied to the desktop, and the creation of a file called `tor-shopping-list.txt` on the desktop at `2024-11-08T22:27:19.7259964Z`. These events began at `2024-11-08T22:14:48.6065231Z`.
+**Rule Query:**
 
-**Query used to locate events:**
-
-```kql
-DeviceFileEvents  
-| where DeviceName == "threat-hunt-lab"  
-| where InitiatingProcessAccountName == "employee"  
-| where FileName contains "tor"  
-| where Timestamp >= datetime(2024-11-08T22:14:48.6065231Z)  
-| order by Timestamp desc  
-| project Timestamp, DeviceName, ActionType, FileName, FolderPath, SHA256, Account = InitiatingProcessAccountName
 ```
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/71402e84-8767-44f8-908c-1805be31122d">
-
----
-
-### 2. Searched the `DeviceProcessEvents` Table
-
-Searched for any `ProcessCommandLine` that contained the string "tor-browser-windows-x86_64-portable-14.0.1.exe". Based on the logs returned, at `2024-11-08T22:16:47.4484567Z`, an employee on the "threat-hunt-lab" device ran the file `tor-browser-windows-x86_64-portable-14.0.1.exe` from their Downloads folder, using a command that triggered a silent installation.
-
-**Query used to locate event:**
-
-```kql
-
-DeviceProcessEvents  
-| where DeviceName == "threat-hunt-lab"  
-| where ProcessCommandLine contains "tor-browser-windows-x86_64-portable-14.0.1.exe"  
-| project Timestamp, DeviceName, AccountName, ActionType, FileName, FolderPath, SHA256, ProcessCommandLine
+DeviceLogonEvents
+| where FailureReason == "InvalidUserNameOrPassword"
+| where ActionType == "LogonFailed"
+| where Timestamp >= ago(5h)
+| summarize FailedAttempts = count() by RemoteIP, DeviceName, ActionType
+| where FailedAttempts >= 40
 ```
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/b07ac4b4-9cb3-4834-8fac-9f5f29709d78">
 
----
+<img src="https://i.imgur.com/MbrmvmH.png">
 
-### 3. Searched the `DeviceProcessEvents` Table for TOR Browser Execution
+In the incident settings, I enabled alert grouping to reduce alert noise and prevent alert spam.
 
-Searched for any indication that user "employee" actually opened the TOR browser. There was evidence that they did open it at `2024-11-08T22:17:21.6357935Z`. There were several other instances of `firefox.exe` (TOR) as well as `tor.exe` spawned afterwards.
+<img src="https://i.imgur.com/gahc0YI.png">
 
-**Query used to locate events:**
+The rule was validated by Azure and saved. 
 
-```kql
-DeviceProcessEvents  
-| where DeviceName == "threat-hunt-lab"  
-| where FileName has_any ("tor.exe", "firefox.exe", "tor-browser.exe")  
-| project Timestamp, DeviceName, AccountName, ActionType, FileName, FolderPath, SHA256, ProcessCommandLine  
-| order by Timestamp desc
+# Part 2: Trigger Alert to Create Incident 
+
+<img src="https://i.imgur.com/uocxpPo.png">
+
+The alert rule worked successfully, and it got triggered in the ‘Incidents’ tab within Microsoft Sentinel. This resulted from 7 different events which triggered the alert which triggered with the incident.  
+
+# Part 3: Working the Incident 
+
+I will now be proceeding with this incident in alignment with the NIST SP 800-61 Incident Response Lifecycle framework, which includes the following phases: Preparation, Detection and Analysis, Containment, Eradication and Recovery, and Post-Incident Activity.
+
+## 3.1 Preparation
+
+•	Document roles, responsibilities, and procedures.<br>
+•	Ensure tools, systems, and training are in place.<br>
+
+(This step is assumed to be already completed and is therefore skipped for the purpose of this lab.)<br>
+
+## 3.2 Detection and Analysis
+
+•	Identify and validate the incident.<br>
+•	Gather relevant evidence and assess impact.<br>
+
+<img src="https://i.imgur.com/WV9oGg8.png">
+
+I will assign this incident to myself by clicking ‘Assign to me’ and change its status to ‘Active’. 
+
+<img src="https://i.imgur.com/6Clwwac.png">
+
+After going into the investigation view of this incident. We can notice that 6 machines were potentially impacted by brute force attempts from 7 different public IP addresses.
+
+<img src="https://i.imgur.com/7fE1tHD.png">
+
+Next, I will check to make sure none of the IP addresses attempting to brute force the machine logged in. 
+
+<img src="https://i.imgur.com/XaqaG1F.png">
+
+**KQL Query Used:**
+
 ```
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/b13707ae-8c2d-4081-a381-2b521d3a0d8f">
-
----
-
-### 4. Searched the `DeviceNetworkEvents` Table for TOR Network Connections
-
-Searched for any indication the TOR browser was used to establish a connection using any of the known TOR ports. At `2024-11-08T22:18:01.1246358Z`, an employee on the "threat-hunt-lab" device successfully established a connection to the remote IP address `176.198.159.33` on port `9001`. The connection was initiated by the process `tor.exe`, located in the folder `c:\users\employee\desktop\tor browser\browser\torbrowser\tor\tor.exe`. There were a couple of other connections to sites over port `443`.
-
-**Query used to locate events:**
-
-```kql
-DeviceNetworkEvents  
-| where DeviceName == "threat-hunt-lab"  
-| where InitiatingProcessAccountName != "system"  
-| where InitiatingProcessFileName in ("tor.exe", "firefox.exe")  
-| where RemotePort in ("9001", "9030", "9040", "9050", "9051", "9150", "80", "443")  
-| project Timestamp, DeviceName, InitiatingProcessAccountName, ActionType, RemoteIP, RemotePort, RemoteUrl, InitiatingProcessFileName, InitiatingProcessFolderPath  
-| order by Timestamp desc
+DeviceLogonEvents
+| where RemoteIP in ("92.42.15.193", "124.43.77.66", "188.246.224.72", "152.52.85.138", "185.243.96.107", "193.37.69.105")
+| where ActionType != "LogonFailed"
 ```
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/87a02b5b-7d12-4f53-9255-f5e750d0e3cb">
 
----
+None of the brute force attempts were successful.
 
-## Chronological Event Timeline 
+## 3.3 Containment, Eradication, and Recovery
 
-### 1. File Download - TOR Installer
+To isolate these machines, I will use Defender for Endpoint.
 
-- **Timestamp:** `2024-11-08T22:14:48.6065231Z`
-- **Event:** The user "employee" downloaded a file named `tor-browser-windows-x86_64-portable-14.0.1.exe` to the Downloads folder.
-- **Action:** File download detected.
-- **File Path:** `C:\Users\employee\Downloads\tor-browser-windows-x86_64-portable-14.0.1.exe`
+<img src="https://i.imgur.com/r0lczYf.png">
 
-### 2. Process Execution - TOR Browser Installation
+I navigated to the Assets tab, selected Devices, located the affected device(s), clicked the three-dot menu, and chose 'Isolate Device'. After isolation, I would initiate an antivirus scan on all affected devices within Microsoft Defender for Endpoint (MDE).
 
-- **Timestamp:** `2024-11-08T22:16:47.4484567Z`
-- **Event:** The user "employee" executed the file `tor-browser-windows-x86_64-portable-14.0.1.exe` in silent mode, initiating a background installation of the TOR Browser.
-- **Action:** Process creation detected.
-- **Command:** `tor-browser-windows-x86_64-portable-14.0.1.exe /S`
-- **File Path:** `C:\Users\employee\Downloads\tor-browser-windows-x86_64-portable-14.0.1.exe`
+**Removing the threat:**
 
-### 3. Process Execution - TOR Browser Launch
+➡️ NSG was locked down to prevent RDP attempts from the public internet.<br>
+➡️ Corporate policy was proposed to require this for all VMs going forward. (This can be done with Azure Policy)<br>
 
-- **Timestamp:** `2024-11-08T22:17:21.6357935Z`
-- **Event:** User "employee" opened the TOR browser. Subsequent processes associated with TOR browser, such as `firefox.exe` and `tor.exe`, were also created, indicating that the browser launched successfully.
-- **Action:** Process creation of TOR browser-related executables detected.
-- **File Path:** `C:\Users\employee\Desktop\Tor Browser\Browser\TorBrowser\Tor\tor.exe`
+Brute force was not successful, so no threats related to this incident.
 
-### 4. Network Connection - TOR Network
+## 3.4 Post-Incident Activities
 
-- **Timestamp:** `2024-11-08T22:18:01.1246358Z`
-- **Event:** A network connection to IP `176.198.159.33` on port `9001` by user "employee" was established using `tor.exe`, confirming TOR browser network activity.
-- **Action:** Connection success.
-- **Process:** `tor.exe`
-- **File Path:** `c:\users\employee\desktop\tor browser\browser\torbrowser\tor\tor.exe`
+•	Document findings and lessons learned.<br>
+•	Update policies and tools to prevent recurrence.<br>
 
-### 5. Additional Network Connections - TOR Browser Activity
+<img src="https://i.imgur.com/5BuLkge.png">
 
-- **Timestamps:**
-  - `2024-11-08T22:18:08Z` - Connected to `194.164.169.85` on port `443`.
-  - `2024-11-08T22:18:16Z` - Local connection to `127.0.0.1` on port `9150`.
-- **Event:** Additional TOR network connections were established, indicating ongoing activity by user "employee" through the TOR browser.
-- **Action:** Multiple successful connections detected.
+I recorded the incident notes in the activity log.
 
-### 6. File Creation - TOR Shopping List
+## 3.5 Incident Closure
 
-- **Timestamp:** `2024-11-08T22:27:19.7259964Z`
-- **Event:** The user "employee" created a file named `tor-shopping-list.txt` on the desktop, potentially indicating a list or notes related to their TOR browser activities.
-- **Action:** File creation detected.
-- **File Path:** `C:\Users\employee\Desktop\tor-shopping-list.txt`
+<img src="https://i.imgur.com/jSFgQXG.png">
 
----
+I marked this case as a True Positive and closed it out.
 
-## Summary
+# Lab Summary
 
-The user "employee" on the "threat-hunt-lab" device initiated and completed the installation of the TOR browser. They proceeded to launch the browser, establish connections within the TOR network, and created various files related to TOR on their desktop, including a file named `tor-shopping-list.txt`. This sequence of activities indicates that the user actively installed, configured, and used the TOR browser, likely for anonymous browsing purposes, with possible documentation in the form of the "shopping list" file.
+In this lab, I demonstrated key skills relevant to a SOC Analyst role, including threat detection, incident investigation, and response. I created and configured an alert rule in Microsoft Sentinel to detect potential brute-force attacks, analysed failed login attempts to validate the incident, and isolated affected systems using Microsoft Defender for Endpoint. I also applied mitigation measures by updating NSG settings to block public RDP access and recommended policy changes to prevent future threats. This hands-on experience showcases my ability to proactively monitor, respond to incidents, and implement security measures in a live environment, all of which are essential for a SOC Analyst position.
 
----
-
-## Response Taken
-
-TOR usage was confirmed on the endpoint `threat-hunt-lab` by the user `employee`. The device was isolated, and the user's direct manager was notified.
-
----
