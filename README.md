@@ -13,6 +13,7 @@
   - [📋 3.4 Post-Incident Activities](#34-post-incident-activities)
   - [✅ 3.5 Incident Closure](#35-incident-closure)
 - [📝 Lab Summary](#lab-summary)
+- [outcome learnes](#outcome-learned)
 
 # Scenario Context
 
