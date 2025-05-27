@@ -60,7 +60,7 @@ The rule was validated and saved in Azure Analytics
 
 # Part 2: Trigger Alert to Create Incident 
 
-<img src="https://i.imgur.com/uocxpPo.png">
+<img src="https://github.com/user-attachments/assets/ffc47b69-d42d-404d-888a-1699c5b35610" >
 
 The alert rule worked successfully, and it got triggered in the ‘Incidents’ tab within Microsoft Sentinel. This resulted from 7 different events which triggered the alert which triggered with the incident.  
 
