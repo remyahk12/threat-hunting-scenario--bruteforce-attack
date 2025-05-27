@@ -104,22 +104,23 @@ DeviceLogonEvents
 | project RemoteIP, DeviceName, ActionType
 ```
 
-None of the brute force attempts were successful.
+The  brute force attempt on one of the device was successfull from the Remote IP 10.0.0.8.
+All the other devices brute force attack was unsuccessfull.
 
 ## 3.3 Containment, Eradication, and Recovery
 
-To isolate these machines, I will use Defender for Endpoint.
+Isolated the affected devices and ran antivirus scan.
 
-<img src="https://i.imgur.com/r0lczYf.png">
+<img src="https://github.com/user-attachments/assets/6a0788ac-5756-4ff9-a21d-93757f3dcfcd">
 
-I navigated to the Assets tab, selected Devices, located the affected device(s), clicked the three-dot menu, and chose 'Isolate Device'. After isolation, I would initiate an antivirus scan on all affected devices within Microsoft Defender for Endpoint (MDE).
+To perform this ,I went to Microsoft Defender , navigated to the Assets tab, selected Devices, located the affected devices and chose'Isolate Device'. After isolation, I would ran  an antivirus scan on all affected devices within Microsoft Defender for Endpoint (MDE).
 
 **Removing the threat:**
 
-➡️ NSG was locked down to prevent RDP attempts from the public internet.<br>
-➡️ Corporate policy was proposed to require this for all VMs going forward. (This can be done with Azure Policy)<br>
+➡ NSG was locked down to prevent RDP attempts from the public internet.<br>
+➡ Corporate policy was proposed to require this for all VMs going forward. (This can be done with Azure Policy)<br>
 
-Brute force was not successful, so no threats related to this incident.
+Removed the threat and restore the system to normal.
 
 ## 3.4 Post-Incident Activities
 
