@@ -84,7 +84,7 @@ The alert created the incident .Work Incident in alignment with the NIST SP 800-
 •	Gather relevant evidence and assess impact.<br>
    -Observe the different entity mappings <br>
 
-<img src="https://github.com/user-attachments/assets/bd64ac27-7eef-48f3-a860-e28c372180da">
+<img src="https://github.com/user-attachments/assets/bd64ac27-7eef-48f3-a860-e28c372180da"><br>
 
 After going through the  investigation view of Remyahk-create alert rule  We can notice that 10 different virtual machines were potentially impacted by brute force attempts from 7 different public IP addresses.
 
@@ -92,14 +92,16 @@ After going through the  investigation view of Remyahk-create alert rule  We can
 
 Next, I will check to make sure none of the IP addresses attempting to brute force the machine logged in. 
 
-<img src="https://i.imgur.com/XaqaG1F.png">
+<img src="https://github.com/user-attachments/assets/f5f3222e-e177-4a14-874d-2bf3f3ba9d8b">
 
 **KQL Query Used:**
 
 ```
 DeviceLogonEvents
-| where RemoteIP in ("92.42.15.193", "124.43.77.66", "188.246.224.72", "152.52.85.138", "185.243.96.107", "193.37.69.105")
+| where TimeGenerated > ago(5h)
+| where RemoteIP in ("10.0.0.8", "122.165.219.142", "179.60.146.60", "122.165.219.142", "114.5.202.25", "114.5.202.25", "209.195.1.108", "122.165.219.142")
 | where ActionType != "LogonFailed"
+| project RemoteIP, DeviceName, ActionType
 ```
 
 None of the brute force attempts were successful.
