@@ -39,17 +39,17 @@ I gave the name for the Alert , gave it a description, assigned a severity level
 
 <img src="https://github.com/user-attachments/assets/2ad0e102-3b1a-4cc9-922e-490f62f087fe" >
 
-I set the rule logic and enhanced the alert by mapping it. 
+I set the alert rule, entity like device name and remote ip  mapped for further investigation 
 
 **Rule Query:**
 
 ```
 DeviceLogonEvents
-| where FailureReason == "InvalidUserNameOrPassword"
 | where ActionType == "LogonFailed"
-| where Timestamp >= ago(5h)
-| summarize FailedAttempts = count() by RemoteIP, DeviceName, ActionType
-| where FailedAttempts >= 40
+| where Timegenerated >= ago(5h)
+| summarize numberoffailure  = count() by RemoteIP, DeviceName, ActionType
+| where numberoffailure >= 50
+|order by numberoffailure
 ```
 
 <img src="https://i.imgur.com/MbrmvmH.png">
