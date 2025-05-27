@@ -37,7 +37,7 @@ My objective was to investigate, detect, and mitigate the incident in alignment 
 Steps Taken:
 I gave the name for the Alert , gave it a description, assigned a severity level to medium and included relevant MITRE ATT&CK categories based on the query language. 
 
-<img src="https://i.imgur.com/dWCGkUL.png">
+<img src="https://github.com/user-attachments/assets/2ad0e102-3b1a-4cc9-922e-490f62f087fe" >
 
 I set the rule logic and enhanced the alert by mapping it. 
 
