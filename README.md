@@ -60,27 +60,30 @@ The rule was validated and saved in Azure Analytics
 
 # Part 2: Trigger Alert to Create Incident 
 
-<img src="https://github.com/user-attachments/assets/ffc47b69-d42d-404d-888a-1699c5b35610" >
+<img src="https://github.com/user-attachments/assets/3dd4a3fa-11f7-4c93-b55e-4ec9c2815a8e">
 
-The alert rule worked successfully, and it got triggered in the ‘Incidents’ tab within Microsoft Sentinel. This resulted from 7 different events which triggered the alert which triggered with the incident.  
+The alert  worked successfully, and it got triggered in the ‘Incidents’ tab within Microsoft Sentinel. This resulted in  10 different incident .
 
-# Part 3: Working the Incident 
+# Part 3: Working Incident 
 
-I will now be proceeding with this incident in alignment with the NIST SP 800-61 Incident Response Lifecycle framework, which includes the following phases: Preparation, Detection and Analysis, Containment, Eradication and Recovery, and Post-Incident Activity.
+The alert created the incident .Work Incident in alignment with the NIST SP 800-61 Incident Response Lifecycle framework, which includes the following phases: Preparation, Detection and Analysis, Containment, Eradication and Recovery, and Post-Incident Activity.
 
 ## 3.1 Preparation
 
 •	Document roles, responsibilities, and procedures.<br>
 •	Ensure tools, systems, and training are in place.<br>
 
-(This step is assumed to be already completed and is therefore skipped for the purpose of this lab.)<br>
 
 ## 3.2 Detection and Analysis
 
 •	Identify and validate the incident.<br>
+  -Observe the incident and assign it to myself, also set the status to active.<br>
+  
+  <img src="https://github.com/user-attachments/assets/796b2c9b-4224-4884-8777-4ec6985b6657">
+  
 •	Gather relevant evidence and assess impact.<br>
 
-<img src="https://i.imgur.com/WV9oGg8.png">
+
 
 I will assign this incident to myself by clicking ‘Assign to me’ and change its status to ‘Active’. 
 
