@@ -132,9 +132,9 @@ Removed the threat and restore the system to normal.
 
 ## 3.5 Incident Closure
 
-<img src="https://github.com/user-attachments/assets/a10f8795-e6f3-4f18-b7f5-4ba37bcd4b7a">
-I documented  the incident  activity in the activity log.
-I marked this case as a True Positive and closed it out.
+<img src="https://github.com/user-attachments/assets/a10f8795-e6f3-4f18-b7f5-4ba37bcd4b7a"><br>
+I documented  the incident  activity in the activity log.<br>
+I marked this case as a True Positive and closed it out.<br>
 
 # Summary
 Through this lab, I gained hands-on experience in detecting and responding to brute-force attacks using Microsoft Sentinel and KQL. I developed skills in crafting custom detection rules and aligning them with MITRE ATT&CK techniques to enhance threat intelligence. I also learned how to investigate incidents efficiently within Microsoft Defender for Endpoint, including isolating compromised devices and analyzing attack paths. Additionally, I applied the NIST SP 800-61 framework to structure my incident response process from detection to recovery. This lab improved my technical investigation capabilities and reinforced the importance of proactive network hardening.
