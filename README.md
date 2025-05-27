@@ -2,7 +2,7 @@
 
 # Table of Contents
 
-- [🌐 Scenario Context](#scenario-context)
+- [🌐 Scenario](#scenario)
 - [🛠️ Platforms and Tools](#platforms-and-tools)
 - [🚨 Part 1: Create Alert Rule](#part-1-create-alert-rule)
 - [🔔 Part 2: Trigger Alert to Create Incident](#part-2-trigger-alert-to-create-incident)
@@ -15,11 +15,12 @@
 - [📝 Lab Summary](#lab-summary)
 - [outcome learnes](#outcome-learned)
 
-# Scenario Context
+# Scenario 
 
-As a security analyst for a large financial services organisation relying heavily on Microsoft Azure services, I observed multiple failed login attempts, particularly targeting privileged accounts during off-hours. This raises concerns about a brute-force attack or a credential-stuffing campaign.
+As a Security Analyst at a pharmaceutical company, I discovered that several critical infrastructure devices hosted on Microsoft Azure were experiencing multiple failed logon attempts.
+My objective was to investigate, detect, and mitigate the incident in alignment with the **NIST SP 800-61** guidelines for incident handling
 
-My goal is to investigate, detect, and mitigate this potential threat in compliance with **NIST 800-61** guidelines.
+
 
 <a name="platforms-and-tools"></a>
 # 🛠️ Platforms and Tools
