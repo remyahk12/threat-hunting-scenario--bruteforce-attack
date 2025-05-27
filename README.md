@@ -1,19 +1,19 @@
-# threat-hunting-scenario--bruteforce-attack
+# Threat-hunting-scenario--bruteforce-attack
 
 # Table of Contents
 
-- [🌐 Scenario](#scenario)
-- [🛠️ Platforms and Tools](#platforms-and-tools)
-- [🚨 Part 1: Create Alert Rule](#part-1-create-alert-rule)
-- [🔔 Part 2: Trigger Alert to Create Incident](#part-2-trigger-alert-to-create-incident)
-- [🔍 Part 3: Working the Incident](#part-3-working-the-incident)
-  - [🛡️ 3.1 Preparation](#31-preparation)
-  - [🔎 3.2 Detection and Analysis](#32-detection-and-analysis)
-  - [🛠️ 3.3 Containment, Eradication, and Recovery](#33-containment-eradication-and-recovery)
-  - [📋 3.4 Post-Incident Activities](#34-post-incident-activities)
-  - [✅ 3.5 Incident Closure](#35-incident-closure)
-- [📝 Lab Summary](#lab-summary)
-- [outcome learnes](#outcome-learned)
+- [ Scenario](#scenario)
+- [ Platforms and Tools](#platforms-and-tools)
+- [ Part 1: Create Alert Rule](#part-1-create-alert-rule)
+- [ Part 2: Trigger Alert to Create Incident](#part-2-trigger-alert-to-create-incident)
+- [ Part 3: Working the Incident](#part-3-working-the-incident)
+  - [ 3.1 Preparation](#31-preparation)
+  - [ 3.2 Detection and Analysis](#32-detection-and-analysis)
+  - [ 3.3 Containment, Eradication, and Recovery](#33-containment-eradication-and-recovery)
+  - [ 3.4 Post-Incident Activities](#34-post-incident-activities)
+  - [ 3.5 Incident Closure](#35-incident-closure)
+- [ Summary](#summary)
+  
 
 # Scenario 
 
@@ -23,7 +23,7 @@ My objective was to investigate, detect, and mitigate the incident in alignment 
 
 
 <a name="platforms-and-tools"></a>
-# 🛠️ Platforms and Tools
+#  Platforms and Tools
 
 •	Microsoft Sentinel<br>
 •	Microsoft Defender for Endpoint<br>
@@ -135,7 +135,7 @@ I recorded the incident notes in the activity log.
 
 I marked this case as a True Positive and closed it out.
 
-# Lab Summary
+# Summary
 
 In this lab, I demonstrated key skills relevant to a SOC Analyst role, including threat detection, incident investigation, and response. I created and configured an alert rule in Microsoft Sentinel to detect potential brute-force attacks, analysed failed login attempts to validate the incident, and isolated affected systems using Microsoft Defender for Endpoint. I also applied mitigation measures by updating NSG settings to block public RDP access and recommended policy changes to prevent future threats. This hands-on experience showcases my ability to proactively monitor, respond to incidents, and implement security measures in a live environment, all of which are essential for a SOC Analyst position.
 
