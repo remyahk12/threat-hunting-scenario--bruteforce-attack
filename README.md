@@ -77,21 +77,18 @@ The alert created the incident .Work Incident in alignment with the NIST SP 800-
 ## 3.2 Detection and Analysis
 
 •	Identify and validate the incident.<br>
-  -Observe the incident and assign it to myself, also set the status to active.<br>
+  -Observe the incident and assign it to myself by selecting 'Assign to myself' and  set the status to active.<br>
   
   <img src="https://github.com/user-attachments/assets/796b2c9b-4224-4884-8777-4ec6985b6657">
   
 •	Gather relevant evidence and assess impact.<br>
+   -Observe the different entity mappings <br>
 
+<img src="https://github.com/user-attachments/assets/bd64ac27-7eef-48f3-a860-e28c372180da">
 
+After going through the  investigation view of Remyahk-create alert rule  We can notice that 10 different virtual machines were potentially impacted by brute force attempts from 7 different public IP addresses.
 
-I will assign this incident to myself by clicking ‘Assign to me’ and change its status to ‘Active’. 
-
-<img src="https://i.imgur.com/6Clwwac.png">
-
-After going into the investigation view of this incident. We can notice that 6 machines were potentially impacted by brute force attempts from 7 different public IP addresses.
-
-<img src="https://i.imgur.com/7fE1tHD.png">
+<img src="https://github.com/user-attachments/assets/437b7491-3424-4833-8e4a-aa54e54de54c">
 
 Next, I will check to make sure none of the IP addresses attempting to brute force the machine logged in. 
 
