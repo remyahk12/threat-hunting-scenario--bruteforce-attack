@@ -32,7 +32,8 @@ My objective was to investigate, detect, and mitigate the incident in alignment 
 
 # Part 1: Create Alert Rule
 
-<img src="https://i.imgur.com/kJNMUXs.png">
+<img src="https://github.com/user-attachments/assets/b07c643e-dba3-4a50-af2f-fcf313e95e82">
+![createalertrule1]
 
 I named the rule, gave it a description, assigned a severity level and included relevant MITRE ATT&CK labels. 
 
