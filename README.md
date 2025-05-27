@@ -52,9 +52,9 @@ DeviceLogonEvents
 |order by numberoffailure
 ```
 
-<img src="https://i.imgur.com/MbrmvmH.png">
+<img src="https://github.com/user-attachments/assets/973e5bb5-a25d-47af-b1da-3b57dd0e7892" >
 
-In the incident settings, I enabled alert grouping to reduce alert noise and prevent alert spam.
+In the incident settings, I grouped the aler into a single one to reduce alert noise.
 
 <img src="https://i.imgur.com/gahc0YI.png">
 
