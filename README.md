@@ -54,11 +54,9 @@ DeviceLogonEvents
 
 <img src="https://github.com/user-attachments/assets/973e5bb5-a25d-47af-b1da-3b57dd0e7892" >
 
-In the incident settings, I grouped the aler into a single one to reduce alert noise.
+In the incident settings, I grouped the alert into a single incident to reduce alert noise.
 
-<img src="https://i.imgur.com/gahc0YI.png">
-
-The rule was validated by Azure and saved. 
+The rule was validated and saved in Azure Analytics 
 
 # Part 2: Trigger Alert to Create Incident 
 
