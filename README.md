@@ -111,7 +111,7 @@ All the other devices brute force attack was unsuccessfull.
 
 Isolated the affected devices and ran antivirus scan.
 
-<img src="https://github.com/user-attachments/assets/6a0788ac-5756-4ff9-a21d-93757f3dcfcd">
+<img src="https://github.com/user-attachments/assets/643cfef7-8610-4923-897e-c7a61f2145c0"><br>
 
 To perform this ,I went to Microsoft Defender , navigated to the Assets tab, selected Devices, located the affected devices and chose'Isolate Device'. After isolation, I would ran  an antivirus scan on all affected devices within Microsoft Defender for Endpoint (MDE).
 
@@ -127,17 +127,16 @@ Removed the threat and restore the system to normal.
 •	Document findings and lessons learned.<br>
 •	Update policies and tools to prevent recurrence.<br>
 
-<img src="https://i.imgur.com/5BuLkge.png">
 
-I recorded the incident notes in the activity log.
+
 
 ## 3.5 Incident Closure
 
-<img src="https://i.imgur.com/jSFgQXG.png">
-
+<img src="https://github.com/user-attachments/assets/a10f8795-e6f3-4f18-b7f5-4ba37bcd4b7a">
+I documented  the incident  activity in the activity log.
 I marked this case as a True Positive and closed it out.
 
 # Summary
+Through this lab, I gained hands-on experience in detecting and responding to brute-force attacks using Microsoft Sentinel and KQL. I developed skills in crafting custom detection rules and aligning them with MITRE ATT&CK techniques to enhance threat intelligence. I also learned how to investigate incidents efficiently within Microsoft Defender for Endpoint, including isolating compromised devices and analyzing attack paths. Additionally, I applied the NIST SP 800-61 framework to structure my incident response process from detection to recovery. This lab improved my technical investigation capabilities and reinforced the importance of proactive network hardening.
 
-In this lab, I demonstrated key skills relevant to a SOC Analyst role, including threat detection, incident investigation, and response. I created and configured an alert rule in Microsoft Sentinel to detect potential brute-force attacks, analysed failed login attempts to validate the incident, and isolated affected systems using Microsoft Defender for Endpoint. I also applied mitigation measures by updating NSG settings to block public RDP access and recommended policy changes to prevent future threats. This hands-on experience showcases my ability to proactively monitor, respond to incidents, and implement security measures in a live environment, all of which are essential for a SOC Analyst position.
 
